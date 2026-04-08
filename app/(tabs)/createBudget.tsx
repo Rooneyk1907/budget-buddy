@@ -48,12 +48,10 @@ export default function CreateBudgetPage() {
 			// TODO: #4 add toast notification for success
 			console.log('budget saved!', newBudgetCategory);
 		} else {
-			// TODO: #5 add toas notification for error
+			// TODO: #5 add toast notification for error
 			console.error('Budget category already exists');
 			return;
 		}
-
-		// Check that budget name does not already exist
 	}
 
 	function handleClear() {
@@ -85,6 +83,7 @@ export default function CreateBudgetPage() {
 					placeholder='Food and ingredients bought to prepare at home.'
 					editable={true}
 					expanded={true}
+					// TODO: #7 style text box so description text is justified to top of box instead of in the center
 				/>
 				{/* AMOUNT */}
 				<DecimalInput
