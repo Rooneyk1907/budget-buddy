@@ -1,4 +1,4 @@
-export interface BudgetCategory {
+export default interface BudgetCategory {
 	id: string;
 	name: string;
 	description: string;

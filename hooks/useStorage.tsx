@@ -4,9 +4,9 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 const STORAGE_KEY =
 	process.env.EXPO_PUBLIC_LONG_TERM_STORAGE_KEY || '@long_term_storage_v1';
 
-import { BudgetCategory } from '@/types/budgetCategory';
+import BudgetCategory from '@/types/budgetCategory';
 
-export async function useStorage() {
+export function useStorage() {
 	async function loadAll(): Promise<BudgetCategory[]> {
 		try {
 			const raw = await AsyncStorage.getItem(STORAGE_KEY);
@@ -63,6 +63,19 @@ export async function useStorage() {
 		return updated;
 	}
 
+	async function checkForExistingCategory(category: string): Promise<boolean> {
+		const budget = await loadAll();
+
+		const categoryLine = await budget.find(
+			(budgetLine) => budgetLine.name === category,
+		);
+
+		console.log(categoryLine);
+
+		if (categoryLine) return true;
+		else return false;
+	}
+
 	async function clearStorage(): Promise<void> {
 		try {
 			await AsyncStorage.removeItem(STORAGE_KEY);
@@ -71,5 +84,13 @@ export async function useStorage() {
 		}
 	}
 
-	return { loadAll, saveAll, addBudgetLine, getById, update, clearStorage };
+	return {
+		loadAll,
+		saveAll,
+		addBudgetLine,
+		getById,
+		update,
+		checkForExistingCategory,
+		clearStorage,
+	};
 }

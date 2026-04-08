@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { StyleSheet, Text, TextInput, View } from 'react-native';
 
 // Text input component that receives a prop (expanded)
@@ -21,25 +20,18 @@ export default function TextBoxInput({
 	editable,
 	expanded,
 }: TextBoxInputProps) {
-	const [text, setText] = useState<string>(String(value));
-
 	return (
 		<View style={styles.container}>
 			<Text style={styles.label}>{label}</Text>
 			<TextInput
 				editable={editable}
-				value={text}
+				value={value}
 				style={[
 					styles.inputBox,
 					expanded ? styles.inputBoxExpanded : styles.inputBoxSingleLine,
 				]}
-				onChangeText={(nextText) => {
-					setText(nextText);
-				}}
-				onBlur={() => {
-					onChangeText(text);
-					onBlur?.();
-				}}
+				onChangeText={onChangeText}
+				onBlur={onBlur}
 			/>
 		</View>
 	);
