@@ -69,6 +69,13 @@ export default function CreateBudgetPage() {
 	const [toast, setToast] = useState<ToastState>(null);
 	// TODO: create state for locations
 
+	const [locationSearch, setLocationSarch] = useState<string>('');
+	const [locationResults, setLocationResults] = useState<StoreLocation[]>([]);
+	const [selectedLocations, setSelectedLocations] = useState<StoreLocation[]>(
+		[],
+	);
+	const [isSearchingLocations, setIsSearchingLocations] = useState(false);
+
 	useEffect(() => {
 		if (!toast) return;
 
@@ -78,6 +85,128 @@ export default function CreateBudgetPage() {
 
 		return () => clearTimeout(timeout);
 	}, [toast]);
+
+	useEffect(() => {
+		const trimmedSearch = locationSearch.trim();
+		const geoapifyApiKey = process.env.EXPO_PUBLIC_GEOAPIFY_API_KEY;
+
+		if (trimmedSearch.length < 3) {
+			setLocationResults([]);
+			setIsSearchingLocations(false);
+			return;
+		}
+
+		if (!geoapifyApiKey) {
+			setLocationResults([]);
+			setToast({
+				title: 'API Error',
+				message: 'Geoapify API key not valid.',
+				variant: 'error',
+			});
+			return;
+		}
+
+		let isActive = true;
+		setIsSearchingLocations(true);
+
+		const timeout = setTimeout(() => {
+			void searchLocations(trimmedSearch, geoapifyApiKey, isActive);
+		}, 400);
+
+		return () => {
+			isActive = false;
+			clearTimeout(timeout);
+		};
+	}, [locationSearch]);
+
+	async function searchLocations(
+		query: string,
+		apiKey: string,
+		isActive: boolean,
+	) {
+		try {
+			const params = new URLSearchParams({
+				text: query,
+				limit: '5',
+				format: 'json',
+				apiKey,
+			});
+
+			const response = await fetch(
+				`https://api.geoapify.com/v1/geocode/autocomplete?${params.toString()}`,
+			);
+
+			if (!response.ok) {
+				setToast({
+					title: 'Geoapify Error',
+					message: `Geoapify request failed: ${response.status}`,
+					variant: 'error',
+				});
+				throw new Error(
+					`Geoapify request failed with status ${response.status}`,
+				);
+			}
+
+			const data = (await response.json()) as {
+				results?: Array<{
+					place_id?: string;
+					formatted?: string;
+					name?: string;
+					lat?: number;
+					lon?: number;
+				}>;
+				features?: GeoapifyFeature[];
+			};
+
+			const resultsFromJson = (data.results || []).map((result) =>
+				normalizeGeoapifyFeature({
+					properties: {
+						place_id: result.place_id,
+						formatted: result.formatted,
+						name: result.name,
+						lat: result.lat,
+						lon: result.lon,
+					},
+				}),
+			);
+
+			const resultsFromFeatures = (data.features || []).map(
+				normalizeGeoapifyFeature,
+			);
+
+			const normalized = [...resultsFromJson, ...resultsFromFeatures].filter(
+				(location): location is StoreLocation => location !== null,
+			);
+
+			const uniqueResults = normalized.filter(
+				(location, index, locations) =>
+					locations.findIndex(
+						(candidate) =>
+							candidate.name === location.name &&
+							candidate.coordinate.latitude === location.coordinate.latitude &&
+							candidate.coordinate.longitude === location.coordinate.longitude,
+					) === index,
+			);
+
+			if (!isActive) return;
+			setLocationResults(uniqueResults);
+		} catch (error) {
+			console.error('Geoapify sarch failed!', error);
+
+			if (!isActive) return;
+
+			setLocationResults([]);
+			setToast({
+				title: 'Geoapify Search Failed',
+				message: 'Unable to load store matches.',
+				variant: 'error',
+			});
+		} finally {
+			if (isActive) {
+				setIsSearchingLocations(false);
+			}
+		}
+	}
 
 	function sleep(ms: number) {
 		return new Promise((resolve) => setTimeout(resolve, ms));
