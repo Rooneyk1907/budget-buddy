@@ -20,6 +20,40 @@ type ToastState = {
 	variant: ToastVariant;
 } | null;
 
+type StoreLocation = BudgetCategory['locations'][number];
+
+type GeoapifyFeature = {
+	properties?: {
+		place_id?: string;
+		formatted?: string;
+		name?: string;
+		lat?: number;
+		lon?: number;
+	};
+};
+
+function normalizeGeoapifyFeature(
+	feature: GeoapifyFeature,
+): StoreLocation | null {
+	const name = feature.properties?.name || feature.properties?.formatted;
+	const latitude = feature.properties?.lat;
+	const longitude = feature.properties?.lon;
+
+	if (!name) return null;
+	if (typeof latitude !== 'number' || typeof longitude !== 'number') {
+		return null;
+	}
+
+	return {
+		id: String(feature.properties?.place_id || uuid.v4()),
+		name,
+		coordinate: {
+			latitude,
+			longitude,
+		},
+	};
+}
+
 export default function CreateBudgetPage() {
 	const storageFunctions = useStorage();
 	const {
