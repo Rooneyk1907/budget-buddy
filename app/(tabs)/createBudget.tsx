@@ -452,8 +452,32 @@ export default function CreateBudgetPage() {
 					</View>
 				) : null}
 
+				{selectedLocations.length > 0 ? (
+					<View style={styles.selectedContainer}>
+						<Text style={styles.selectedTitle}>Selected Stores</Text>
+						{selectedLocations.map((location) => (
+							<View
+								key={location.id}
+								style={styles.selectedItem}>
+								<View style={styles.selectedTextContainer}>
+									<Text style={styles.selectedName}>{location.name}</Text>
+									<Text style={styles.resultCoordinate}>
+										Lat: {location.coordinate.latitude.toFixed(5)} | Lon:{' '}
+										{location.coordinate.longitude.toFixed(5)}
+									</Text>
+								</View>
+								<Pressable
+									onPress={() => removeSelectedLocation(location.id)}
+									style={styles.removeButton}>
+									<Text style={styles.removeButton}>Rmove</Text>
+								</Pressable>
+							</View>
+						))}
+					</View>
+				) : null}
+
 				{/* BUTTONS */}
-				<View style={{ flexDirection: 'row' }}>
+				<View style={styles.buttonRow}>
 					<Button
 						buttonText='save'
 						variant='save'
@@ -476,8 +500,16 @@ export default function CreateBudgetPage() {
 }
 
 const styles = StyleSheet.create({
-	page: {},
-	searchStatus: {},
+	page: {
+		paddingBottom: 24,
+	},
+	searchStatus: {
+		flexDirection: 'row',
+		alignItems: 'center',
+		paddingHorizontal: 10,
+		marginTop: 8,
+		gap: 8,
+	},
 	searchStatusText: {},
 	resultsContainer: {},
 	resultItem: {},
