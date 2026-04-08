@@ -18,4 +18,12 @@ export async function useStorage() {
 			return [];
 		}
 	}
+
+	async function save(budget: BudgetCategory[]) {
+		try {
+			await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(budget));
+		} catch (error) {
+			console.error('useStorage: save failed', error);
+		}
+	}
 }
