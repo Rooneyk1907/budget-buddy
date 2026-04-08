@@ -27,8 +27,8 @@ export default function TabLayout() {
 						<TabButton
 							{...props}
 							label='Create Budget'
-							icon='cash'
-							iconOutline='cash-outline'
+							icon='add-circle'
+							iconOutline='add-circle-outline'
 						/>
 					),
 				}}
@@ -41,6 +41,8 @@ export default function TabLayout() {
 						<TabButton
 							{...props}
 							label='Budget Overview'
+							icon='cash'
+							iconOutline='cash-outline'
 						/>
 					),
 				}}
@@ -63,7 +65,7 @@ function TabButton({
 		<Pressable
 			onPress={onPress}
 			{...rest}>
-			<View>
+			<View style={{ alignItems: 'center' }}>
 				<Ionicons
 					name={focused ? icon : iconOutline}
 					size={20}
