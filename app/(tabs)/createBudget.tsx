@@ -5,10 +5,6 @@ import Button from '@/components/button';
 import DecimalInput from '@/components/inputs/decimals';
 import TextBoxInput from '@/components/inputs/textBox';
 
-const [budgetName, setBudgetName] = useState<string>('');
-const [budgetDescription, setBudgetDescription] = useState<string>('');
-const [budgetAmount, setBudgetAmount] = useState<number>(0.0);
-
 function handleSave() {
 	console.log('Save Button Pressed!');
 }
@@ -18,6 +14,10 @@ function handleClear() {
 }
 
 export default function CreateBudgetPage() {
+	const [budgetName, setBudgetName] = useState<string>('');
+	const [budgetDescription, setBudgetDescription] = useState<string>('');
+	const [budgetAmount, setBudgetAmount] = useState<number>(0.0);
+
 	return (
 		<View>
 			{/* FORM */}
@@ -49,7 +49,7 @@ export default function CreateBudgetPage() {
 					placeholder='0.00'
 				/>
 				{/* LOCATIONS  (Advanced feature: map pin selection)*/}
-				{/* TODO: Create location selector */}
+				{/* TODO: #1 Create location selector */}
 
 				{/* BUTTONS */}
 				<View style={{ flexDirection: 'row' }}>

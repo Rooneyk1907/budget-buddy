@@ -1,6 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-// TODO: use proper validation of .env values
+// TODO: #3 use proper validation of .env values
 const STORAGE_KEY =
 	process.env.EXPO_PUBLIC_LONG_TERM_STORAGE_KEY || '@long_term_storage_v1';
 

@@ -47,5 +47,5 @@ const styles = StyleSheet.create({
 	cancel: { backgroundColor: '#c62828' },
 	warning: { backgroundColor: '#ff7900' },
 	default: { backgroundColor: '#666' },
-	// TODO: created style for disabled button
+	// TODO: #2 created style for disabled button
 });
