@@ -1,5 +1,14 @@
 import { useEffect, useState } from 'react';
-import { Alert, Platform, View } from 'react-native';
+import {
+	ActivityIndicator,
+	Alert,
+	FlatList,
+	Platform,
+	Pressable,
+	StyleSheet,
+	Text,
+	View,
+} from 'react-native';
 import uuid from 'react-native-uuid';
 
 // HOOKS
@@ -297,6 +306,9 @@ export default function CreateBudgetPage() {
 		setBudgetName('');
 		setBudgetDescription('');
 		setBudgetAmount(0);
+		setLocationSearch('');
+		setLocationResults([]);
+		setSelectedLocations([]);
 
 		setToast({
 			title: 'Form Cleared',
@@ -403,6 +415,42 @@ export default function CreateBudgetPage() {
 				/>
 				{/* LOCATIONS  (Advanced feature: map pin selection)*/}
 				{/* TODO: #1 Create location selector */}
+				<TextBoxInput
+					label='Store Search'
+					value={locationSearch}
+					onChangeText={setLocationSearch}
+					placeholder='Search for a store or address'
+					editable={true}
+					expanded={false}
+				/>
+
+				{isSearchingLocations ? (
+					<View style={styles.searchStatus}>
+						<ActivityIndicator size='small' />
+						<Text style={styles.searchStatusText}>Searching stores...</Text>
+					</View>
+				) : null}
+
+				{locationResults.length > 0 ? (
+					<View style={styles.resultsContainer}>
+						<FlatList
+							data={locationResults}
+							keyExtractor={(item) => item.id}
+							scrollEnabled={false}
+							renderItem={({ item }) => (
+								<Pressable
+									style={styles.resultItem}
+									onPress={() => addSelectedLocation(item)}>
+									<Text style={styles.resultName}>{item.name}</Text>
+									<Text style={styles.resultCoordinate}>
+										Lat: {item.coordinate.latitude.toFixed(5)} | Lon:{' '}
+										{item.coordinate.longitude.toFixed(5)}
+									</Text>
+								</Pressable>
+							)}
+						/>
+					</View>
+				) : null}
 
 				{/* BUTTONS */}
 				<View style={{ flexDirection: 'row' }}>
@@ -426,3 +474,21 @@ export default function CreateBudgetPage() {
 		</View>
 	);
 }
+
+const styles = StyleSheet.create({
+	page: {},
+	searchStatus: {},
+	searchStatusText: {},
+	resultsContainer: {},
+	resultItem: {},
+	resultName: {},
+	resultCoordinate: {},
+	selectedContainer: {},
+	selectedTitle: {},
+	selectedItem: {},
+	selectedTextContainer: {},
+	selectedName: {},
+	removeButton: {},
+	removeButtonText: {},
+	buttonRow: {},
+});
