@@ -24,7 +24,7 @@ export default function BudgetOverviewPage() {
 			if (loadedBudget != null) setBudget(loadedBudget);
 			setIsLoading(false);
 		})();
-	}, [loadBudget]);
+	}, []);
 
 	return (
 		<View>
@@ -47,3 +47,5 @@ export default function BudgetOverviewPage() {
 		</View>
 	);
 }
+
+// TODO: #8 fix crash when trying to load page

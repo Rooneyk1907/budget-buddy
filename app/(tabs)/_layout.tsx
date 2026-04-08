@@ -67,7 +67,7 @@ function TabButton({
 				<Ionicons
 					name={focused ? icon : iconOutline}
 					size={20}
-					coloor={focused ? '#fff' : '#bbb'}
+					color={focused ? '#fff' : '#bbb'}
 					style={{ marginBottom: 4 }}
 				/>
 				<Text>{label}</Text>
