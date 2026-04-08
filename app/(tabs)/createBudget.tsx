@@ -69,7 +69,7 @@ export default function CreateBudgetPage() {
 	const [toast, setToast] = useState<ToastState>(null);
 	// TODO: create state for locations
 
-	const [locationSearch, setLocationSarch] = useState<string>('');
+	const [locationSearch, setLocationSearch] = useState<string>('');
 	const [locationResults, setLocationResults] = useState<StoreLocation[]>([]);
 	const [selectedLocations, setSelectedLocations] = useState<StoreLocation[]>(
 		[],
@@ -210,6 +210,35 @@ export default function CreateBudgetPage() {
 
 	function sleep(ms: number) {
 		return new Promise((resolve) => setTimeout(resolve, ms));
+	}
+
+	function addSelectedLocation(location: StoreLocation) {
+		const alreadySelected = selectedLocations.some(
+			(selectedLocations) =>
+				selectedLocations.coordinate.latitude ===
+					location.coordinate.latitude &&
+				selectedLocations.coordinate.longitude ===
+					location.coordinate.longitude,
+		);
+
+		if (alreadySelected) {
+			setToast({
+				title: 'Location Already Added',
+				message: `${location.name} is already linked to this budget.`,
+				variant: 'info',
+			});
+			return;
+		}
+
+		setSelectedLocations((currentLocations) => [...currentLocations, location]);
+		setLocationSearch('');
+		setLocationResults([]);
+	}
+
+	function removeSelectedLocation(locationId: string) {
+		setSelectedLocations((currentLocations) =>
+			currentLocations.filter((location) => location.id !== locationId),
+		);
 	}
 
 	async function handleSave() {
