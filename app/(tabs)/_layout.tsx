@@ -33,6 +33,18 @@ export default function TabLayout() {
 					),
 				}}
 			/>
+			<Tabs.Screen
+				name='budgetOverview'
+				options={{
+					title: 'Budget Overview',
+					tabBarButton: (props) => (
+						<TabButton
+							{...props}
+							label='Budget Overview'
+						/>
+					),
+				}}
+			/>
 		</Tabs>
 	);
 }
