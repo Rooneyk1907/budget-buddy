@@ -19,6 +19,20 @@ export default function TabLayout() {
 					),
 				}}
 			/>
+			<Tabs.Screen
+				name='createBudget'
+				options={{
+					title: 'Create Budget',
+					tabBarButton: (props) => (
+						<TabButton
+							{...props}
+							label='Create Budget'
+							icon='cash'
+							iconOutline='cash-outline'
+						/>
+					),
+				}}
+			/>
 		</Tabs>
 	);
 }

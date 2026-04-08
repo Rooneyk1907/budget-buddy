@@ -1,9 +1,9 @@
 import { Stack } from 'expo-router';
-import { View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 
 export default function RootLayout() {
 	return (
-		<View>
+		<View style={styles.appBase}>
 			<Stack
 				screenOptions={{
 					headerShown: false,
@@ -12,3 +12,13 @@ export default function RootLayout() {
 		</View>
 	);
 }
+
+const styles = StyleSheet.create({
+	appBase: {
+		flex: 1,
+		margin: 0,
+		padding: 15,
+		backgroundColor: '#222',
+		fontFamily: 'sans-serif',
+	},
+});
