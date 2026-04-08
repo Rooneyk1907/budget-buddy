@@ -469,7 +469,7 @@ export default function CreateBudgetPage() {
 								<Pressable
 									onPress={() => removeSelectedLocation(location.id)}
 									style={styles.removeButton}>
-									<Text style={styles.removeButton}>Rmove</Text>
+									<Text style={styles.removeButtonText}>Remove</Text>
 								</Pressable>
 							</View>
 						))}
