@@ -64,4 +64,5 @@ const styles = StyleSheet.create({
 	inputBoxExpanded: {
 		minHeight: 120,
 	},
+	// TODO: #6 Style placeholder text
 });
