@@ -73,7 +73,7 @@ export default function CreateBudgetPage() {
 					label='Budget Category Name'
 					value={budgetName}
 					onChangeText={setBudgetName}
-					placeholder='Budget Category Name'
+					placeholder='Groceries'
 					editable={true}
 					expanded={false}
 				/>
@@ -82,7 +82,7 @@ export default function CreateBudgetPage() {
 					label='Budget Category Description'
 					value={budgetDescription}
 					onChangeText={setBudgetDescription}
-					placeholder='Budget Category Description'
+					placeholder='Food and ingredients bought to prepare at home.'
 					editable={true}
 					expanded={true}
 				/>
@@ -92,7 +92,6 @@ export default function CreateBudgetPage() {
 					value={budgetAmount}
 					onChangeText={setBudgetAmount}
 					editable={true}
-					placeholder='0.00'
 				/>
 				{/* LOCATIONS  (Advanced feature: map pin selection)*/}
 				{/* TODO: #1 Create location selector */}

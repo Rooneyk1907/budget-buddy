@@ -15,10 +15,10 @@ export default function DecimalInput({
 	value,
 	onChangeText,
 	onBlur,
-	placeholder = '0.00',
+	placeholder,
 	editable,
 }: DecimalInputProps) {
-	const [text, setText] = useState<string>(String(value));
+	const [text, setText] = useState<string>(placeholder || '0.00');
 
 	useEffect(() => setText(String(value)), [value]);
 

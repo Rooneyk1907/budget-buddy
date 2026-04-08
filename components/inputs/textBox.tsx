@@ -17,6 +17,7 @@ export default function TextBoxInput({
 	value,
 	onChangeText,
 	onBlur,
+	placeholder,
 	editable,
 	expanded,
 }: TextBoxInputProps) {
@@ -32,6 +33,7 @@ export default function TextBoxInput({
 				]}
 				onChangeText={onChangeText}
 				onBlur={onBlur}
+				placeholder={placeholder}
 			/>
 		</View>
 	);
