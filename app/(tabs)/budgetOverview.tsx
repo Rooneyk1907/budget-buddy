@@ -38,7 +38,7 @@ export default function BudgetOverviewPage() {
 					renderItem={({ item }) => (
 						<BasicCard
 							heading={item.name}
-							displayValue={String(item.amount)}
+							displayValue={String(item.amount.toFixed(2))}
 						/>
 					)}
 					ListEmptyComponent={<Text>No budget lines</Text>}
